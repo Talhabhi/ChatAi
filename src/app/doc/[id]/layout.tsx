@@ -1,15 +1,17 @@
 // No 'use client' directive here
 import RoomProvider from "@/components/ui/RoomProvider";
 
-function DocLayout({
+async function DocLayout({
   children,
   params,
 }: {
   children: React.ReactNode;
-  params: { id: string };
+  params: Promise<{ id: string }>; // Changed: params is now a Promise
 }) {
-  // We can access params.id directly in a Server Component
-  return <RoomProvider roomId={params.id}>{children}</RoomProvider>;
+  // Await the params to get the actual values
+  const { id } = await params;
+  
+  return <RoomProvider roomId={id}>{children}</RoomProvider>;
 }
 
 export default DocLayout;
